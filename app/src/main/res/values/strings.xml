@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">recyclergame</string>
+
+    <string-array name="idioms">
+
+        <item>行尸走肉</item>
+        <item>百里挑一</item>
+        <item>金玉满堂</item>
+        <item>背水一战</item>
+        <item>天上人间</item>
+        <item>偷天换日</item>
+        <item>兵临城下</item>
+        <item>天下无双</item>
+        <item>珠光宝气</item>
+        <item>霸王别姬</item>
+        <item>青梅竹马</item>
+        <item>两小无猜</item>
+        <item>掌上明珠</item>
+        <item>逍遥法外</item>
+        <item>金枝玉叶</item>
+        <item>情不自禁</item>
+        <item>卧薪尝胆</item>
+        <item>落叶归根</item>
+        <item>女娲补天</item>
+        <item>万箭穿心</item>
+        <item>口蜜腹剑</item>
+        <item>口若悬河</item>
+        <item>壮志凌云</item>
+        <item>天涯海角</item>
+        <item>石破天惊</item>
+        <item>飞蛾扑火</item>
+        <item>金蝉脱壳</item>
+        <item>鸡飞狗跳</item>
+        <item>狗急跳墙</item>
+        <item>察言观色</item>
+
+    </string-array>
+</resources>
