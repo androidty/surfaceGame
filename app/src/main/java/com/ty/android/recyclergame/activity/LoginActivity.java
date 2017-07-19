@@ -13,6 +13,7 @@ import com.ty.android.recyclergame.R;
  */
 
 public class LoginActivity extends AppCompatActivity{
+	private int i;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
