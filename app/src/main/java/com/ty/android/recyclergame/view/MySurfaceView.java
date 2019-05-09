@@ -84,10 +84,8 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
 
     private List<Bullet> mBullets = new ArrayList<>();
-    private Bullet mBullet;
 
     private List<PointF> xxPoints = new ArrayList<>();
-    private float rbgX;
 
 
     private int bgBitmapW;
@@ -177,14 +175,13 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         inCircleY = outCircleY;
 //        mBgRepeater = Tool.createRepeater(w, h, mBgBitmap);
 
-        rbgX = -mWidth;
 
-        rectf = new RectF(actorX - actorBitmap1.getWidth() / 2 - 15, actorY - actorBitmap1.getHeight() / 2 - 15, actorX + actorBitmap1.getWidth() / 2 + 15, actorY + actorBitmap1.getHeight() / 2 + 15);
+        rectf = new RectF(actorX - actorBitmap1.getWidth() / 2 - 15, actorY - actorBitmap1.getHeight() / 2 - 15,
+                actorX + actorBitmap1.getWidth() / 2 + 15, actorY + actorBitmap1.getHeight() / 2 + 15);
 
-        wCount = ((w + bgBitmapW - 1) / bgBitmapW) + 1;
-        hCount = ((h + bgBitmapH - 1) / bgBitmapH) + 1;
+        wCount = ((w + bgBitmapW - 1) / bgBitmapW) + 10;
+        hCount = ((h + bgBitmapH - 1) / bgBitmapH) + 10;
 
-        mBullet = new Bullet();
 
     }
 
@@ -221,9 +218,8 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
             mPaint.setColor(Color.YELLOW);
             canvas.drawCircle(shootX, shootY, shootR, mPaint);
 //            canvas.drawCircle(actorX, actorY, 45, mPaint);
-
             drawxx(canvas);
-            mBullet.drawItSelf(canvas);
+            drawBullets(canvas);
             drawActor(canvas);
 
         } catch (Exception e) {
@@ -237,6 +233,19 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
+    private void drawBullets(final Canvas canvas) {
+        if (mBullets != null && !mBullets.isEmpty()) {
+            for (Bullet bullet : mBullets
+            ) {
+                if(bullet.isLive()){
+                    bullet.drawItSelf(canvas);
+                }else{
+                    mBullets.remove(bullet);
+                }
+            }
+        }
+    }
+
 
     private void drawActor(Canvas canvas) {
 
@@ -244,11 +253,11 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         matrix.setTranslate(actorX - actorBitmap1.getWidth() / 2, actorY - actorBitmap1.getHeight() / 2);     //设置图片的旋转中心，即绕（X,Y）这点进行中心旋转
         matrix.preRotate(mAngle, (float) actorBitmap1.getWidth() / 2, (float) actorBitmap1.getHeight() / 2);  //要旋转的角度
         canvas.drawBitmap(actorBitmap1, matrix, mPaint);
-        canvas.drawBitmap(actorBitmap2,actorX-actorBitmap2.getWidth()/2,actorY-actorBitmap2.getHeight()/2,mPaint);
+        canvas.drawBitmap(actorBitmap2, actorX - actorBitmap2.getWidth() / 2, actorY - actorBitmap2.getHeight() / 2, mPaint);
 //        canvas.drawBitmap(actorBitmap2, matrix, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
 //        canvas.drawRect(rectf,mPaint);
-        canvas.drawArc(rectf,90,135,false,mPaint);
+        canvas.drawArc(rectf, 90, 135, false, mPaint);
         mPaint.setStrokeWidth(5);
         canvas.drawOval(rectf, mPaint);
 
@@ -320,23 +329,29 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         }
 
 
-        if (mBullet.isLive()) {
-            if (mBullet.isShoot()) {
-                mBullet.setShoot(false);
-                if (xK > 0) {
-                    mBullet.setOffsetX(-offsetX);
-                } else {
-                    mBullet.setOffsetX(offsetX);
-                }
-                if (yK > 0) {
-                    mBullet.setOffsetY(-offsetY);
-                } else {
-                    mBullet.setOffsetY(offsetY);
+        if(mBullets!=null && !mBullets.isEmpty()){
+            for (Bullet mBullet:mBullets
+                 ) {
+                if (mBullet.isLive()) {
+                    if (mBullet.isShoot()) {
+                        mBullet.setShoot(false);
+                        if (xK > 0) {
+                            mBullet.setOffsetX(-offsetX);
+                        } else {
+                            mBullet.setOffsetX(offsetX);
+                        }
+                        if (yK > 0) {
+                            mBullet.setOffsetY(-offsetY);
+                        } else {
+                            mBullet.setOffsetY(offsetY);
+                        }
+                    }
+                    mBullet.setbX(mBullet.getbX() - mBullet.getOffsetX() * 1.7f);
+                    mBullet.setBy(mBullet.getBy() - mBullet.getOffsetY() * 1.7f);
                 }
             }
-            mBullet.setbX(mBullet.getbX() - mBullet.getOffsetX()*1.7f);
-            mBullet.setBy(mBullet.getBy() - mBullet.getOffsetY()*1.7f);
         }
+
 
     }
 
@@ -442,13 +457,14 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     }
 
                     if (clickShoot(x[i], y[i])) {
-                            mBullet.setbX(actorX);
-                            mBullet.setBy(actorY);
-                            mBullet.setLive(true);
-                            mBullet.setbR(15);
-                            mBullet.setShoot(true);
-                            mBullet.setbColor(Color.GREEN);
-
+                        Bullet bullet = new Bullet();
+                        bullet.setbX(actorX);
+                        bullet.setBy(actorY);
+                        bullet.setLive(true);
+                        bullet.setbR(15);
+                        bullet.setShoot(true);
+                        bullet.setbColor(Color.GREEN);
+                        mBullets.add(bullet);
                     }
                     break;
                 case MotionEvent.ACTION_UP:
