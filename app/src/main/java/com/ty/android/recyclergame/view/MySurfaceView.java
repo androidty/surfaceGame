@@ -82,6 +82,8 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
     int wCount;
     int hCount;
 
+
+    private List<Bullet> mBullets = new ArrayList<>();
     private Bullet mBullet;
 
     private List<PointF> xxPoints = new ArrayList<>();
@@ -242,10 +244,10 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         matrix.setTranslate(actorX - actorBitmap1.getWidth() / 2, actorY - actorBitmap1.getHeight() / 2);     //设置图片的旋转中心，即绕（X,Y）这点进行中心旋转
         matrix.preRotate(mAngle, (float) actorBitmap1.getWidth() / 2, (float) actorBitmap1.getHeight() / 2);  //要旋转的角度
         canvas.drawBitmap(actorBitmap1, matrix, mPaint);
-        canvas.drawBitmap(actorBitmap1,actorX-actorBitmap1.getWidth()/2,actorY-actorBitmap1.getHeight()/2,mPaint);
-        canvas.drawBitmap(actorBitmap2, matrix, mPaint);
+        canvas.drawBitmap(actorBitmap2,actorX-actorBitmap2.getWidth()/2,actorY-actorBitmap2.getHeight()/2,mPaint);
+//        canvas.drawBitmap(actorBitmap2, matrix, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(rectf,mPaint);
+//        canvas.drawRect(rectf,mPaint);
         canvas.drawArc(rectf,90,135,false,mPaint);
         mPaint.setStrokeWidth(5);
         canvas.drawOval(rectf, mPaint);
@@ -316,6 +318,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         } else {
             speedY -= offsetY;
         }
+
 
         if (mBullet.isLive()) {
             if (mBullet.isShoot()) {
@@ -439,7 +442,6 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
                     }
 
                     if (clickShoot(x[i], y[i])) {
-
                             mBullet.setbX(actorX);
                             mBullet.setBy(actorY);
                             mBullet.setLive(true);
