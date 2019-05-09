@@ -243,10 +243,10 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         matrix.preRotate(mAngle, (float) actorBitmap1.getWidth() / 2, (float) actorBitmap1.getHeight() / 2);  //要旋转的角度
         canvas.drawBitmap(actorBitmap1, matrix, mPaint);
         canvas.drawBitmap(actorBitmap1,actorX-actorBitmap1.getWidth()/2,actorY-actorBitmap1.getHeight()/2,mPaint);
-//        canvas.drawBitmap(actorBitmap2, matrix, mPaint);
+        canvas.drawBitmap(actorBitmap2, matrix, mPaint);
         mPaint.setStyle(Paint.Style.STROKE);
-//        canvas.drawRect(rectf,mPaint);
-//        canvas.drawArc(rectf,90,135,false,mPaint);
+        canvas.drawRect(rectf,mPaint);
+        canvas.drawArc(rectf,90,135,false,mPaint);
         mPaint.setStrokeWidth(5);
         canvas.drawOval(rectf, mPaint);
 
